@@ -1,0 +1,29 @@
+.top-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 64px;
+    width: 1080px;
+
+    .top-panel__wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 100%;
+        font-weight: bold;
+
+        .top-panel__project-name {
+            font-size: 32px;
+            line-height: 32px;
+        }
+    }
+}
+
+@media (max-width: 1080px) { 
+    .top-panel {
+        width: 100%;
+        margin: 0 auto;
+    }
+}

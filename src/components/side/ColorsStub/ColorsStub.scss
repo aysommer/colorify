@@ -1,0 +1,11 @@
+@import '../../styles/colors.scss';
+
+.colors-stub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: $main-color;
+    height: 50px;
+    font-size: 18px;
+}
