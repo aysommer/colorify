@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/colorify/static/css/main.a3e93a73.chunk.css",
-    "main.js": "/colorify/static/js/main.d1d79ecd.chunk.js",
-    "main.js.map": "/colorify/static/js/main.d1d79ecd.chunk.js.map",
+    "main.css": "/colorify/static/css/main.e51d58fc.chunk.css",
+    "main.js": "/colorify/static/js/main.adb3114c.chunk.js",
+    "main.js.map": "/colorify/static/js/main.adb3114c.chunk.js.map",
     "runtime-main.js": "/colorify/static/js/runtime-main.bb9d75ff.js",
     "runtime-main.js.map": "/colorify/static/js/runtime-main.bb9d75ff.js.map",
     "static/js/2.b59ba0ef.chunk.js": "/colorify/static/js/2.b59ba0ef.chunk.js",
     "static/js/2.b59ba0ef.chunk.js.map": "/colorify/static/js/2.b59ba0ef.chunk.js.map",
     "index.html": "/colorify/index.html",
-    "precache-manifest.99f1f591136c2153e87fe8c1219b2b2a.js": "/colorify/precache-manifest.99f1f591136c2153e87fe8c1219b2b2a.js",
+    "precache-manifest.9c14a71bac2b6892949935ac09416e24.js": "/colorify/precache-manifest.9c14a71bac2b6892949935ac09416e24.js",
     "service-worker.js": "/colorify/service-worker.js",
-    "static/css/main.a3e93a73.chunk.css.map": "/colorify/static/css/main.a3e93a73.chunk.css.map",
+    "static/css/main.e51d58fc.chunk.css.map": "/colorify/static/css/main.e51d58fc.chunk.css.map",
     "static/js/2.b59ba0ef.chunk.js.LICENSE": "/colorify/static/js/2.b59ba0ef.chunk.js.LICENSE"
   },
   "entrypoints": [
     "static/js/runtime-main.bb9d75ff.js",
     "static/js/2.b59ba0ef.chunk.js",
-    "static/css/main.a3e93a73.chunk.css",
-    "static/js/main.d1d79ecd.chunk.js"
+    "static/css/main.e51d58fc.chunk.css",
+    "static/js/main.adb3114c.chunk.js"
   ]
 }
