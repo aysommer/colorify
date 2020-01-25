@@ -9,11 +9,15 @@ interface IButton {
     onClick?:  any;
 }
   
-const Button: React.FC<IButton> = React.memo(({children, type, disabled, onClick}) => <button
-    className="simple-button"
-    type={type}
-    disabled={disabled}
-    onClick={onClick}
->{children}</button>)
+const Button: React.FC<IButton> = React.memo(({children, type, disabled, onClick}) => <>
+    <button
+        className="simple-button"
+        type={type}
+        disabled={disabled}
+        onClick={onClick}
+    >
+        {children}
+    </button>
+</>)
 
 export default Button;

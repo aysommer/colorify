@@ -11,11 +11,25 @@ interface IColor {
 }
 
 const Color: React.FC<IColor> = ({ color }) => {
-    const HEX = color.HEX;
+    const onColorSelect = (e: React.MouseEvent) => {
+        const target: any = e.target;
+
+        const range = document.createRange();
+        range.selectNode(target);
+        // @ts-ignore
+        window.getSelection().removeAllRanges();
+        // @ts-ignore
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+    }
+
+    const { HEX } = color;
+    const style = { backgroundColor: HEX };
 
     return <div
         className="colors-panel__color"
-        style={{ backgroundColor: HEX }}
+        onClick={onColorSelect}
+        style={style}
     >
         {HEX}
     </div>
