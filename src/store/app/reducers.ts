@@ -1,36 +1,37 @@
-import IAction from "../interfaces";
+import { IAction, IColor } from '../../common/interfaces'
+import { COLORIFY_ACTIONS } from './actions'
 
-import { 
-    UPLOAD_IMAGE,
-    CLEAR_IMAGE,
-    CALCULATE_COLORS
- } from "./actions";
+interface IInitialState {
+    image: null;
+    colors: IColor[]
+}
 
-const initialState = {
+const initialState: IInitialState = {
     image: null,
     colors: []
 }
 
-export const appReducer = (state = initialState, action: IAction) => {
+export const appReducer: any = (state: IInitialState = initialState, action: IAction<COLORIFY_ACTIONS>) => {
     switch (action.type) {
-        case UPLOAD_IMAGE: {
+        case COLORIFY_ACTIONS.UPLOAD_IMAGE: {
             return {
                 ...state,
                 image: action.payload
             }
         }
-        case CALCULATE_COLORS: {
+        case COLORIFY_ACTIONS.CALCULATE_COLORS: {
             return {
                 ...state,
                 colors: action.payload
             }
         }
-        case CLEAR_IMAGE: {
+        case COLORIFY_ACTIONS.CLEAR_IMAGE: {
             return {
                 ...initialState
             }
         }
+        default: {
+            return state;
+        }
     }
-
-    return state;
 }

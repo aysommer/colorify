@@ -19,7 +19,6 @@ export default class colorParser {
      */
     static rgbToHex = (color: RGB): HEX => {
         const { red, green, blue }: RGB = color;
-
         const HEXColor: HEX = ((red << 16) | (green << 8) | blue).toString(16);
 
         return HEXColor;

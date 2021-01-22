@@ -26,13 +26,15 @@ const Color: React.FC<IColor> = ({ color }) => {
     const { HEX } = color;
     const style = { backgroundColor: HEX };
 
-    return <div
-        className="colors-panel__color"
-        onClick={onColorSelect}
-        style={style}
-    >
-        {HEX}
-    </div>
+    return (
+        <div
+            className="colors-panel__color"
+            onClick={onColorSelect}
+            style={style}
+        >
+            {HEX}
+        </div>
+    )
 }
 
 export default Color;

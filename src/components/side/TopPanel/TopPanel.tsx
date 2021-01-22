@@ -12,4 +12,4 @@ const TopPanel: React.FC = () => (
     </nav>
 )
 
-export default TopPanel;
+export default React.memo(TopPanel);
