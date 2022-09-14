@@ -22,7 +22,7 @@ export type Context = {
    dispatch: Dispatch<Action>;
 };
 export type State = {
-   image: string | null;
+   image: HTMLImageElement | null;
    colors: Color[];
 };
 

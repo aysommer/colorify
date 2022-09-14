@@ -16,35 +16,35 @@ const UploadPanel: React.FC = () => {
     const { state, dispatch } = useContext(AppContext);
     const [isLoading, setLoading] = useState(false);
 
-    const loadedImage = useRef<any>(null);
-    const fileInput = useRef<any>(null);
+    const loadedImage = useRef<HTMLImageElement>(null);
+    const fileInput = useRef<HTMLInputElement>(null);
     const loaderCanvas = useRef<HTMLCanvasElement>(null);
 
     const onClearImage = () => {
         dispatch({ type: 'CLEAR_IMAGE', payload: undefined });
         setLoading(false);
 
-        const canvas = loaderCanvas.current;
-        const context = canvas?.getContext('2d');
-        const image = loadedImage.current;
+        const canvas = loaderCanvas.current as HTMLCanvasElement;
+        const context = canvas.getContext('2d') as CanvasRenderingContext2D;
+        const image = loadedImage.current as HTMLImageElement;
 
-        context?.clearRect(0, 0, 300, 150);
+        context.clearRect(0, 0, 300, 150);
         image.src = '';
     }
 
     const onFileOpen = useCallback(() => {
-        fileInput.current.click();
+        fileInput.current?.click();
     }, []);
 
-    const onFileOpening = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const onFileOpening = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const reader = new FileReader();
-        const canvas = loaderCanvas.current;
-        const context = canvas?.getContext('2d') as CanvasRenderingContext2D;
-        const image = loadedImage.current;
-        const [imageData] = e.target.files || [];
+        const canvas = loaderCanvas.current as HTMLCanvasElement;
+        const context = canvas.getContext('2d') as CanvasRenderingContext2D;
+        const image = loadedImage.current as HTMLImageElement;
+        const [imageData] = event.target.files || [];
 
         image.onload = () => {
-            context?.drawImage(image, 0, 0, 300, 150);
+            context.drawImage(image, 0, 0, 300, 150);
 
             ColorParser.getColors(context).then((colors) => {
                 dispatch({ type: 'UPLOAD_IMAGE', payload: image });
@@ -56,7 +56,7 @@ const UploadPanel: React.FC = () => {
         }
         reader.onload = () => {
             setLoading(false);
-            image.src = reader.result;
+            image.src = reader.result as string;
         }
 
         if (imageData) {
