@@ -1,21 +1,19 @@
 import React from 'react';
-import Color, { TColor } from './Color';
+import { Color } from '../../types';
+import ColorBlock from './ColorBlock';
 
 import './ColorsPanel.css';
 
 interface IColorsPanel {
-    colors: TColor[];
+   colors: Color[];
 }
 
 const ColorsPanel: React.FC<IColorsPanel> = ({ colors }) => (
-    <section className="colors-panel">
-    {
-        colors.map((color, index) => <Color
-            key={index}
-            color={color}
-        />)
-    }
-    </section>
+   <section className="colors-panel">
+      {
+         colors.map((color, index) => <ColorBlock key={index} color={color} />)
+      }
+   </section>
 )
 
 
