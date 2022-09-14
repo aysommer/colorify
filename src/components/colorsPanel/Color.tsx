@@ -27,13 +27,12 @@ const Color: React.FC<IColor> = ({ color }) => {
     const style = { backgroundColor: HEX };
 
     return (
-        <div
+        <section
             className="colors-panel__color"
             onClick={onColorSelect}
-            style={style}
-        >
+            style={style}>
             {HEX}
-        </div>
+        </section>
     )
 }
 

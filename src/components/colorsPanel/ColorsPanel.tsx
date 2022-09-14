@@ -1,5 +1,5 @@
 import React from 'react';
-import Color, { TColor } from '../Color/Color';
+import Color, { TColor } from './Color';
 
 import './ColorsPanel.css';
 

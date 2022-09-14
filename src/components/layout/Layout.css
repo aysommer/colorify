@@ -1,0 +1,14 @@
+.app-layout {
+   display: flex;
+   flex-direction: column;
+   margin: 0 auto;
+   height: 100%;
+   width: 1080px;
+}
+
+@media (max-width: 1080px) {
+   .app-layout {
+      width: 100%;
+      margin: 0 auto;
+   }
+}

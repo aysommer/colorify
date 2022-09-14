@@ -3,6 +3,7 @@
 }
 
 :root {
+   --header-height: 64px;
    --main-color: rgb(0, 106, 255);
    --main-color-hovered: rgba(0, 106, 255, 0.85);
    --main-color-disabled: rgba(0, 106, 255, 0.2);

@@ -1,25 +1,28 @@
-.top-panel {
+.app-header {
+    background: rgba(255, 255, 255,0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    position: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 64px;
+    height: var(--header-height);
     width: 1080px;
 }
-.top-panel__wrapper {
+.app-header__wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
     font-weight: bold;
 }
-.top-panel__project-name {
+.app-header__project-name {
     font-size: 32px;
-    line-height: 32px;
+    text-shadow: #cccccc 1px 1px 2px;
 }
 
 @media (max-width: 1080px) {
-    .top-panel {
+    .app-header {
         width: 100%;
         margin: 0 auto;
-   }
+    }
 }

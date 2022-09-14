@@ -68,11 +68,14 @@ const UploadPanel: React.FC = () => {
         <section className="upload-panel">
             <div className="upload-panel__top-panel">
                 {
-                    isLoading ?
-                        <Loader /> :
-                        <Button onClick={!state.image ? onFileOpen : onClearImage}>
+                    (isLoading) ? (
+                        <Loader />
+                    ) : (
+                        <Button
+                            onClick={(!state.image) ? onFileOpen : onClearImage}>
                             {!state.image ? 'Upload' : 'Clear'}
                         </Button>
+                    )
                 }
             </div>
             <input
