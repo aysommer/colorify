@@ -26,13 +26,13 @@ export type State = {
    colors: Color[];
 };
 
-export type BaseAction<T, P = {}> = {
+export type BaseAction<T, P> = {
    type: T;
-   payload?: P;
+   payload: P;
 };
 export type UploadImageAction = BaseAction<'UPLOAD_IMAGE', State['image']>;
 export type CalculateColorsAction = BaseAction<'CALCULATE_COLORS', State['colors']>;
-export type ClearImage = BaseAction<'CLEAR_IMAGE'>;
+export type ClearImage = BaseAction<'CLEAR_IMAGE', undefined>;
 export type Action =
    UploadImageAction |
    CalculateColorsAction |

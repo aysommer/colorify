@@ -21,7 +21,7 @@ const UploadPanel: React.FC = () => {
     const loaderCanvas = useRef<HTMLCanvasElement>(null);
 
     const onClearImage = () => {
-        dispatch({ type: 'CLEAR_IMAGE' });
+        dispatch({ type: 'CLEAR_IMAGE', payload: undefined });
         setLoading(false);
 
         const canvas = loaderCanvas.current;
@@ -41,7 +41,7 @@ const UploadPanel: React.FC = () => {
         const canvas = loaderCanvas.current;
         const context = canvas?.getContext('2d') as CanvasRenderingContext2D;
         const image = loadedImage.current;
-        const [imageData] = e.target.files;
+        const [imageData] = e.target.files || [];
 
         image.onload = () => {
             context?.drawImage(image, 0, 0, 300, 150);
