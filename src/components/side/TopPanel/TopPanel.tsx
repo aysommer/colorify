@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './TopPanel.scss';
+import './TopPanel.css';
 
 const TopPanel: React.FC = () => (
     <nav className="top-panel">
@@ -12,4 +12,4 @@ const TopPanel: React.FC = () => (
     </nav>
 )
 
-export default React.memo(TopPanel);
+export default TopPanel;

@@ -1,15 +1,10 @@
 import React from 'react';
 import { ButtonHTMLAttributes } from 'react';
 
-import './Button.scss';
-  
-const Button: React.FC<ButtonHTMLAttributes<unknown>> = ({children, type, disabled, onClick }) => (
-    <button
-        className="simple-button"
-        type={type}
-        disabled={disabled}
-        onClick={onClick}
-    >
+import './Button.css';
+
+const Button: React.FC<ButtonHTMLAttributes<unknown>> = ({ children, ...other }) => (
+    <button className="simple-button" {...other}>
         {children}
     </button>
 );

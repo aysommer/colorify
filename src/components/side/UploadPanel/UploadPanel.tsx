@@ -1,35 +1,34 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, {
+    ChangeEvent,
+    useCallback,
+    useContext,
+    useRef,
+    useState
+} from 'react';
 import Button from '../../base/Button/Button';
 import Loader from '../../base/Loader/Loader';
-import colorParser from '../../../common/ColorParser';
+import ColorParser from '../../../utils/ColorParser';
+import { AppContext } from '../../../store';
 
-import { useDispatch } from 'react-redux';
-import { uploadImage, clearImage, calculateColors } from '../../../store/app/actions';
+import './UploadPanel.css';
 
-import './UploadPanel.scss';
-
-interface IUploadPanel {
-    image: string;
-}
-
-const UploadPanel: React.FC<IUploadPanel> = ({ image }) => {
+const UploadPanel: React.FC = () => {
+    const { state, dispatch } = useContext(AppContext);
     const [isLoading, setLoading] = useState(false);
-
-    const dispatch = useDispatch();
 
     const loadedImage = useRef<any>(null);
     const fileInput = useRef<any>(null);
-    const loaderCanvas = useRef<any>(null);
+    const loaderCanvas = useRef<HTMLCanvasElement>(null);
 
     const onClearImage = () => {
-        dispatch(clearImage());
+        dispatch({ type: 'CLEAR_IMAGE' });
         setLoading(false);
 
         const canvas = loaderCanvas.current;
-        const context = canvas.getContext('2d');
+        const context = canvas?.getContext('2d');
         const image = loadedImage.current;
 
-        context.clearRect(0, 0, 300, 150);
+        context?.clearRect(0, 0, 300, 150);
         image.src = '';
     }
 
@@ -37,19 +36,19 @@ const UploadPanel: React.FC<IUploadPanel> = ({ image }) => {
         fileInput.current.click();
     }, []);
 
-    const onFileOpening = useCallback((e) => {
+    const onFileOpening = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const reader = new FileReader();
         const canvas = loaderCanvas.current;
-        const context = canvas.getContext('2d');
+        const context = canvas?.getContext('2d') as CanvasRenderingContext2D;
         const image = loadedImage.current;
         const [imageData] = e.target.files;
 
         image.onload = () => {
-            context.drawImage(image, 0, 0, 300, 150);
+            context?.drawImage(image, 0, 0, 300, 150);
 
-            colorParser.getColors(context).then((colors) => {
-                dispatch(uploadImage(context));
-                dispatch(calculateColors(colors));
+            ColorParser.getColors(context).then((colors) => {
+                dispatch({ type: 'UPLOAD_IMAGE', payload: image });
+                dispatch({ type: 'CALCULATE_COLORS', payload: colors });
             });
         }
         reader.onloadstart = () => {
@@ -71,8 +70,8 @@ const UploadPanel: React.FC<IUploadPanel> = ({ image }) => {
                 {
                     isLoading ?
                         <Loader /> :
-                        <Button onClick={!image ? onFileOpen : onClearImage}>
-                            {!image ? 'Upload' : 'Clear'}
+                        <Button onClick={!state.image ? onFileOpen : onClearImage}>
+                            {!state.image ? 'Upload' : 'Clear'}
                         </Button>
                 }
             </div>
@@ -88,7 +87,7 @@ const UploadPanel: React.FC<IUploadPanel> = ({ image }) => {
                 ref={loaderCanvas}
             ></canvas>
             <img
-                className={`upload-panel__image${(image) ? " loaded" : ""}`}
+                className={`upload-panel__image${(state.image) ? " loaded" : ""}`}
                 ref={loadedImage}
                 alt=""
             />

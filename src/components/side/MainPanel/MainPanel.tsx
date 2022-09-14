@@ -1,19 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import UploadPanel from '../UploadPanel/UploadPanel';
 import ColorsPanel from '../ColorsPanel/ColorsPanel';
+import { AppContext } from '../../../store';
 
-import { useSelector } from 'react-redux';
-
-import './MainPanel.scss';
+import './MainPanel.css';
 
 const MainPanel: React.FC = () => {
-    const { image, colors } = useSelector((state: any) => state.app);
+    const { state, dispatch } = useContext(AppContext);
 
     return (
         <main className="main-panel">
-            <UploadPanel image={image}/>
+            <UploadPanel image={state.image} dispatch={dispatch} />
             {
-                (image) && <ColorsPanel colors={colors}/>
+                (state.image) ? <ColorsPanel colors={state.colors} /> : null
             }
         </main>
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './ColorsStub.scss';
+import './ColorsStub.css';
 
 const ColorsStub: React.FC = () => (
     <section className="colors-stub">

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Color.scss';
+import './Color.css';
 
 export type TColor = {
     HEX: string;

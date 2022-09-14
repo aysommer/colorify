@@ -1,0 +1,27 @@
+.simple-button {
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: 400;
+	background-color: var(--main-color);
+	color: white;
+	outline: none;
+	user-select: none;
+	border: 0;
+	border-radius: 50px;
+	transition: all .15s ease;
+}
+.simple-button:hover {
+	background-color: var(--main-color-hovered);
+	color: white;
+}
+.simple-button:active {
+	background-color: var(--main-color);
+	color: white;
+}
+.simple-button:disabled {
+	cursor: default;
+	background-color: var(--main-color-disabled);
+}

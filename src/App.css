@@ -1,4 +1,4 @@
-#root {
+.app {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -6,8 +6,8 @@
     width: 1080px;
 }
 
-@media (max-width: 1080px) { 
-    #root {
+@media (max-width: 1080px) {
+    .app {
         width: 100%;
         margin: 0 auto;
     }

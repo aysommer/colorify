@@ -1,7 +1,7 @@
 import React from 'react';
 import Color, { TColor } from '../Color/Color';
 
-import './ColorsPanel.scss';
+import './ColorsPanel.css';
 
 interface IColorsPanel {
     colors: TColor[];
