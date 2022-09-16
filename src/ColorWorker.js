@@ -1,19 +1,17 @@
-import { RGB, HEX, HSL, Color } from "../types";
-
 const MAX_COLORS = 25;
 const CANVAS_SIZE = {
    WIDTH: 300,
    HEIGHT: 150
 };
 
-export default class ColorParser {
+class ColorParser {
 
    /**
     * Converts RGB color to HEX color.
     */
-   static rgbToHex = (color: RGB): HEX => {
-      const { red, green, blue }: RGB = color;
-      const HEXColor: HEX = ((red << 16) | (green << 8) | blue).toString(16);
+   static rgbToHex = (color) => {
+      const { red, green, blue } = color;
+      const HEXColor = ((red << 16) | (green << 8) | blue).toString(16);
 
       return HEXColor;
    }
@@ -21,8 +19,8 @@ export default class ColorParser {
    /**
     * Converts RGB color to HSL color.
     */
-   static rgbToHSL = (color: RGB): HSL => {
-      let { red, green, blue }: RGB = color;
+   static rgbToHSL = (color) => {
+      let { red, green, blue } = color;
 
       red /= 255;
       green /= 255;
@@ -58,7 +56,7 @@ export default class ColorParser {
       saturation = +(saturation * 100).toFixed(1);
       lightness = +(lightness * 100).toFixed(1);
 
-      const HSLColor: HSL = {
+      const HSLColor = {
          hue,
          saturation,
          lightness
@@ -70,23 +68,22 @@ export default class ColorParser {
    /**
     * Gets colors from canvas context.
     */
-   static getColors = async (context: CanvasRenderingContext2D): Promise<Color[]> => {
-      let colors: any = {};
+   static getColors = ({ data }) => {
+      let colors = {};
 
       // Getting colors.
-      for (let x = 0; x < CANVAS_SIZE.WIDTH; x++) {
-         for (let y = 0; y < CANVAS_SIZE.HEIGHT; y++) {
-            const pixel: any = context.getImageData(x, y, 1, 1).data;
-            const [red, green, blue] = pixel;
-            const color = { red, green, blue }
+      for (let x = 0; x < data.length; x += 4) {
+         const red = data[x];
+         const green = data[x + 1];
+         const blue = data[x + 2];
+         const color = { red, green, blue }
 
-            const HEX = "#" + ("000000" + ColorParser.rgbToHex(color)).slice(-6);
-            const HSL = ColorParser.rgbToHSL(color);
+         const HEX = "#" + ("000000" + ColorParser.rgbToHex(color)).slice(-6);
+         const HSL = ColorParser.rgbToHSL(color);
 
-            colors[HEX] = {
-               amount: colors[HEX] ? colors[HEX].amount + 1 : 1,
-               HSL
-            }
+         colors[HEX] = {
+            amount: colors[HEX] ? colors[HEX].amount + 1 : 1,
+            HSL
          }
       }
 
@@ -101,10 +98,10 @@ export default class ColorParser {
 
       // Deleting of excesses values.
       mainColors.forEach(color => {
-         const { hue, lightness }: HSL = color.HSL;
+         const { hue, lightness } = color.HSL;
 
          mainColors = mainColors.filter((_color) => {
-            const { hue: _hue, lightness: _lightness }: HSL = _color.HSL
+            const { hue: _hue, lightness: _lightness } = _color.HSL
 
             if (_lightness > lightness || _lightness < lightness) {
                return _color;
@@ -120,4 +117,9 @@ export default class ColorParser {
 
       return mainColors.splice(0, MAX_COLORS);
    }
+}
+
+onmessage = ({ data }) => {
+   const colors = ColorParser.getColors(data);
+   postMessage(colors);
 }
