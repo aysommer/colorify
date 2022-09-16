@@ -72,8 +72,10 @@ class ColorParser {
       let colors = {};
 
       // Getting colors.
-      for (let x = 0; x < data.length; x+=4) {
-         const [red, green, blue] = data.slice(x, 4);
+      for (let x = 0; x < data.length; x += 4) {
+         const red = data[x];
+         const green = data[x + 1];
+         const blue = data[x + 2];
          const color = { red, green, blue }
 
          const HEX = "#" + ("000000" + ColorParser.rgbToHex(color)).slice(-6);
