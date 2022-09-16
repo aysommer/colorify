@@ -7,10 +7,11 @@ import React, {
 } from 'react';
 import Button from '../../base/Button/Button';
 import Loader from '../../base/Loader/Loader';
-import ColorParser from '../../../utils/ColorParser';
 import { AppContext } from '../../../store';
 
 import './UploadPanel.css';
+
+const colorWorker = new window.Worker('src/ColorWorker.js');
 
 const UploadPanel: React.FC = () => {
     const { state, dispatch } = useContext(AppContext);
@@ -44,12 +45,13 @@ const UploadPanel: React.FC = () => {
         const [imageData] = e.target.files || [];
 
         image.onload = () => {
-            context?.drawImage(image, 0, 0, 300, 150);
+            context.drawImage(image, 0, 0, 300, 150);
 
-            ColorParser.getColors(context).then((colors) => {
+            colorWorker.postMessage(context.getImageData(0, 0, 300, 150));
+            colorWorker.onmessage = ({ data }) => {
                 dispatch({ type: 'UPLOAD_IMAGE', payload: image });
-                dispatch({ type: 'CALCULATE_COLORS', payload: colors });
-            });
+                dispatch({ type: 'CALCULATE_COLORS', payload: data });
+            }
         }
         reader.onloadstart = () => {
             setLoading(true);
