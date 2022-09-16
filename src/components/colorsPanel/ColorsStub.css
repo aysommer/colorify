@@ -1,9 +1,0 @@
-.colors-stub {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    background-color: var(--main-color);
-    height: 50px;
-    font-size: 18px;
-}

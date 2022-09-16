@@ -1,20 +1,23 @@
 import React from 'react';
-import { Color } from '../../types';
+import { observer } from 'mobx-react';
 import ColorBlock from './ColorBlock';
+import store from '../../store';
 
 import './ColorsPanel.css';
 
-interface IColorsPanel {
-   colors: Color[];
-}
+const ColorsPanel: React.FC = observer(() => {
+   if (store.colors.length === 0) {
+      return null;
+   }
 
-const ColorsPanel: React.FC<IColorsPanel> = ({ colors }) => (
-   <section className="colors-panel">
-      {
-         colors.map((color, index) => <ColorBlock key={index} color={color} />)
-      }
-   </section>
-)
+   return (
+      <section className="colors-panel">
+         {
+            store.colors.map((color, index) => <ColorBlock key={index} color={color} />)
+         }
+      </section>
+   )
+});
 
 
 export default ColorsPanel;

@@ -1,20 +1,18 @@
+import { observer } from 'mobx-react';
 import React, {
     ChangeEvent,
     useCallback,
-    useContext,
     useRef,
     useState
 } from 'react';
-import Button from '../base/Button/Button';
-import Loader from '../base/Loader/Loader';
-import { AppContext } from '../../store';
+import { Button, Loader } from '../base';
+import store from '../../store';
 
 import './UploadPanel.css';
 
 const colorWorker = new Worker(new URL('../../color-worker.ts', import.meta.url));
 
-const UploadPanel: React.FC = () => {
-    const { state, dispatch } = useContext(AppContext);
+const UploadPanel: React.FC = observer(() => {
     const [isLoading, setLoading] = useState(false);
 
     const loadedImage = useRef<HTMLImageElement>(null);
@@ -22,7 +20,7 @@ const UploadPanel: React.FC = () => {
     const loaderCanvas = useRef<HTMLCanvasElement>(null);
 
     const onClearImage = () => {
-        dispatch({ type: 'CLEAR_IMAGE', payload: undefined });
+        store.clear();
         setLoading(false);
 
         const canvas = loaderCanvas.current as HTMLCanvasElement;
@@ -49,8 +47,8 @@ const UploadPanel: React.FC = () => {
 
             colorWorker.postMessage(context.getImageData(0, 0, 300, 150));
             colorWorker.onmessage = ({ data }) => {
-                dispatch({ type: 'UPLOAD_IMAGE', payload: image });
-                dispatch({ type: 'CALCULATE_COLORS', payload: data });
+                store.setImage(image);
+                store.setColors(data);
                 setLoading(false);
             }
         }
@@ -64,7 +62,7 @@ const UploadPanel: React.FC = () => {
         if (imageData) {
             reader.readAsDataURL(imageData);
         }
-    }, [dispatch]);
+    }, []);
 
     return (
         <section className="upload-panel">
@@ -74,8 +72,8 @@ const UploadPanel: React.FC = () => {
                         <Loader />
                     ) : (
                         <Button
-                            onClick={(!state.image) ? onFileOpen : onClearImage}>
-                            {!state.image ? 'Upload' : 'Clear'}
+                            onClick={(!store.image) ? onFileOpen : onClearImage}>
+                            {(!store.image) ? 'Upload' : 'Clear'}
                         </Button>
                     )
                 }
@@ -92,12 +90,12 @@ const UploadPanel: React.FC = () => {
                 ref={loaderCanvas}
             ></canvas>
             <img
-                className={`upload-panel__image${(state.image) ? " loaded" : ""}`}
+                className={`upload-panel__image${(store.image) ? " loaded" : ""}`}
                 ref={loadedImage}
                 alt=""
             />
         </section>
     )
-}
+});
 
 export default UploadPanel;

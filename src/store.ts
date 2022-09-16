@@ -1,37 +1,37 @@
-import { createContext, } from "react";
-import type { Action, State, Context } from "./types";
+import { makeAutoObservable } from "mobx"
+import type { Color } from "./types";
 
-export const initialState: State = {
-   image: null,
-   colors: []
-};
+interface IStore {
+   image: HTMLImageElement | null;
+   colors: Color[];
 
-export const reducer = (state: State, action: Action) => {
-   switch (action.type) {
-      case 'UPLOAD_IMAGE': {
-         return {
-            ...state,
-            image: action.payload
-         }
-      }
-      case 'CALCULATE_COLORS': {
-         return {
-            ...state,
-            colors: action.payload
-         }
-      }
-      case 'CLEAR_IMAGE': {
-         return {
-            ...initialState
-         }
-      }
-      default: {
-         return state;
-      }
+   setImage(image: HTMLImageElement | null): void;
+   setColors(colors: Color[]): void;
+   clear(): void;
+}
+
+class Store implements IStore {
+   public image: HTMLImageElement | null = null;
+   public colors: Color[] = [];
+
+   constructor() {
+      makeAutoObservable(this);
    }
-};
 
-export const AppContext = createContext<Context>({
-   state: initialState,
-   dispatch: () => null
-});
+   public setImage = (image: IStore['image']): void => {
+      this.image = image;
+   }
+
+   public setColors = (colors: Color[]): void => {
+      this.colors = colors;
+   }
+
+   public clear = (): void => {
+      this.image = null;
+      this.colors = [];
+   }
+}
+
+const store = new Store();
+
+export default store;
