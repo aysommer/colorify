@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
-import { MainPanel, UploadPanel } from './components/side';
-import { Body, Header, Layout } from './components/layout';
+import { UploadPanel } from './components/uploadPanel';
+import { Header, Layout } from './components/layout';
 import { reducer, initialState, AppContext } from './store';
 import { ColorsPanel } from './components/colorsPanel';
 
@@ -13,14 +13,14 @@ const App: React.FC = () => {
         <AppContext.Provider value={{ state, dispatch }}>
             <Layout>
                 <Header />
-                <Body>
-                    <MainPanel>
+                <main className='app__body'>
+                    <main className="app__main-panel">
                         <UploadPanel />
                         {
                             (state.image) ? <ColorsPanel colors={state.colors} /> : null
                         }
-                    </MainPanel>
-                </Body>
+                    </main>
+                </main>
             </Layout>
         </AppContext.Provider>
     )

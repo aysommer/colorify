@@ -10,6 +10,7 @@
     height: var(--header-height);
     width: 1080px;
 }
+
 .app-header__wrapper {
     display: flex;
     align-items: center;
@@ -17,6 +18,7 @@
     height: 100%;
     font-weight: bold;
 }
+
 .app-header__project-name {
     font-size: 32px;
     text-shadow: #cccccc 1px 1px 2px;

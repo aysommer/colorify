@@ -5,13 +5,13 @@ import React, {
     useRef,
     useState
 } from 'react';
-import Button from '../../base/Button/Button';
-import Loader from '../../base/Loader/Loader';
-import { AppContext } from '../../../store';
+import Button from '../base/Button/Button';
+import Loader from '../base/Loader/Loader';
+import { AppContext } from '../../store';
 
 import './UploadPanel.css';
 
-const colorWorker = new Worker(new URL('../../../ColorWorker.js', import.meta.url))
+const colorWorker = new Worker(new URL('../../color-worker.ts', import.meta.url));
 
 const UploadPanel: React.FC = () => {
     const { state, dispatch } = useContext(AppContext);
@@ -51,13 +51,13 @@ const UploadPanel: React.FC = () => {
             colorWorker.onmessage = ({ data }) => {
                 dispatch({ type: 'UPLOAD_IMAGE', payload: image });
                 dispatch({ type: 'CALCULATE_COLORS', payload: data });
+                setLoading(false);
             }
         }
         reader.onloadstart = () => {
             setLoading(true);
         }
         reader.onload = () => {
-            setLoading(false);
             image.src = reader.result as string;
         }
 

@@ -12,7 +12,7 @@ export type HSL = {
 }
 export type HEX = string;
 export type Color = {
-   HEX: HEX;
+   HEX?: HEX;
    HSL: HSL;
    amount: number;
 };

@@ -1,14 +1,27 @@
 .app {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    height: 100%;
-    width: 1080px;
+   display: flex;
+   flex-direction: column;
+   margin: 0 auto;
+   height: 100%;
+   width: 1080px;
+}
+
+.app__body {
+   padding-top: calc(var(--header-height) * 2);
+   height: 100%;
+}
+
+.app__main-panel {
+   display: flex;
+   flex-direction: column;
+   min-height: 100%;
+   border-radius: 50px 50px 0px 0px;
+   background-color: var(--main-panel-bg-color);
 }
 
 @media (max-width: 1080px) {
-    .app {
-        width: 100%;
-        margin: 0 auto;
-    }
+   .app {
+      width: 100%;
+      margin: 0 auto;
+   }
 }
