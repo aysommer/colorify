@@ -11,7 +11,7 @@ import { AppContext } from '../../../store';
 
 import './UploadPanel.css';
 
-const colorWorker = new window.Worker('src/ColorWorker.js');
+const colorWorker = new Worker(new URL('../../../ColorWorker.js', import.meta.url))
 
 const UploadPanel: React.FC = () => {
     const { state, dispatch } = useContext(AppContext);
