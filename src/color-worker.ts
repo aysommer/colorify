@@ -1,78 +1,51 @@
-import type { Color, RGB, HSL } from "./types";
+import type { Color, RGB, HEX } from "./types";
 
 const MAX_COLORS = 25;
 const COLOR_ARR_SIZE = 4;
+const SIMILARITY_THRESHOLD = 0.8;
 
 type OnMessageData = {
    data: {
       data: number[];
    }
-}
+};
 
 /**
  * Converts RGB color to HEX color.
  */
-const rgbToHex = (color: RGB): string => {
+const rgbToHex = (color: RGB): HEX => {
    const { red, green, blue } = color;
    const HEXColor = ((red << 16) | (green << 8) | blue).toString(16);
 
    return HEXColor;
 }
 
-/**
- * Converts RGB color to HSL color.
- */
-const rgbToHSL = (color: RGB): HSL => {
-   let { red, green, blue } = color;
-
-   red /= 255;
-   green /= 255;
-   blue /= 255;
-
-   let cmin = Math.min(red, green, blue),
-      cmax = Math.max(red, green, blue),
-      delta = cmax - cmin,
-      hue = 0,
-      saturation = 0,
-      lightness = 0;
-
-   if (delta === 0) {
-      hue = 0;
-   } else if (cmax === red) {
-      hue = ((green - blue) / delta) % 6;
-   } else if (cmax === green) {
-      hue = (blue - red) / delta + 2;
-   } else {
-      hue = (red - green) / delta + 4;
-   }
-
-   hue = Math.round(hue * 60);
-
-   if (hue < 0) {
-      hue += 360;
-   }
-
-   lightness = (cmax + cmin) / 2;
-
-   saturation = delta === 0 ? 0 : delta / (1 - Math.abs(2 * lightness - 1));
-
-   saturation = +(saturation * 100).toFixed(1);
-   lightness = +(lightness * 100).toFixed(1);
-
-   const HSLColor: HSL = {
-      hue,
-      saturation,
-      lightness
-   };
-
-   return HSLColor;
+const getHEXColorDelta = (hex1: HEX, hex2: HEX): number => {
+   // get red/green/blue int values of hex1
+   const r1 = parseInt(hex1.substring(0, 2), 16);
+   const g1 = parseInt(hex1.substring(2, 4), 16);
+   const b1 = parseInt(hex1.substring(4, 6), 16);
+   // get red/green/blue int values of hex2
+   const r2 = parseInt(hex2.substring(0, 2), 16);
+   const g2 = parseInt(hex2.substring(2, 4), 16);
+   const b2 = parseInt(hex2.substring(4, 6), 16);
+   // calculate differences between reds, greens and blues
+   let r = 255 - Math.abs(r1 - r2);
+   let g = 255 - Math.abs(g1 - g2);
+   let b = 255 - Math.abs(b1 - b2);
+   // limit differences between 0 and 1
+   r /= 255;
+   g /= 255;
+   b /= 255;
+   // 0 means opposite colors, 1 means same colors
+   return (r + g + b) / 3;
 }
 
 /**
  * Gets colors from canvas context.
  */
 const getColors = ({ data }: OnMessageData['data']): Color[] => {
-   let colors: Record<string, Color> = {};
+   let colors: Record<HEX, Color> = {};
 
    // Getting colors.
    for (let x = 0; x < data.length; x += COLOR_ARR_SIZE) {
@@ -83,11 +56,9 @@ const getColors = ({ data }: OnMessageData['data']): Color[] => {
       };
 
       const HEX = "#" + ("000000" + rgbToHex(color)).slice(-6);
-      const HSL = rgbToHSL(color);
 
       colors[HEX] = {
-         amount: colors[HEX] ? colors[HEX].amount + 1 : 1,
-         HSL
+         amount: colors[HEX] ? colors[HEX].amount + 1 : 1
       }
    }
 
@@ -101,23 +72,13 @@ const getColors = ({ data }: OnMessageData['data']): Color[] => {
       .reverse();
 
    // Deleting of excesses values.
-   mainColors.forEach(color => {
-      const { hue, lightness } = color.HSL;
-
-      mainColors = mainColors.filter((_color) => {
-         const { hue: _hue, lightness: _lightness } = _color.HSL
-
-         if (_lightness > lightness || _lightness < lightness) {
-            return _color;
-         }
-
-         if (_hue > hue - 10 && _hue < hue + 10 && _color !== color) {
-            return null;
-         }
-
-         return _color;
-      });
+   mainColors.forEach((color) => {
+      mainColors = mainColors.filter((_color) =>
+         color.HEX === _color.HEX ||
+         getHEXColorDelta(color.HEX.slice(1), _color.HEX.slice(1)) < SIMILARITY_THRESHOLD
+      );
    })
+
 
    return mainColors.splice(0, MAX_COLORS);
 }
